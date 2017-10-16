@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="template.xhtml">
+	<ui:define name="content">
+		<div class="row">
+			<div class="col-md-4"></div>		
+			<div class="col-md-4">
+				<h:form>
+					<h2>Log in</h2>
+					<div class="form-group">
+						<label>HomeUsuario</label>
+						<h:inputText styleClass="form-control" value="#{loginMb.usr}"></h:inputText>
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<h:inputText styleClass="form-control" value="#{loginMb.pwd}"></h:inputText>
+					</div>
+					<h:commandLink action="#{loginMb.checkLogin()}" styleClass="btn btn-success">Log In</h:commandLink>
+					<h:outputText value = "   No tenes usuario?"/>
+					<h:commandLink action="register.xhtml" styleClass="btn">Registrate</h:commandLink>
+				</h:form>
+			</div>
+		<div class="col-md-4"></div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

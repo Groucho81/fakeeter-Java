@@ -1,0 +1,23 @@
+.background_login {
+	color:black;
+	padding-bottom: 25px;
+	padding-top: 10px;
+	background-size:cover;
+    background-image: url("#{resource['images:21.jpg']}");
+
+}
+.logo {
+	height: 70px;
+	margin-left: 10px;
+}
+.logoText{
+	/*height:80px;
+	line-height:80px;*/
+	margin:0px;
+	padding:5px;	
+}
+.whiteForm{
+	background-color:white;
+	border-radius: 25px;
+	padding-bottom: 25px;
+}

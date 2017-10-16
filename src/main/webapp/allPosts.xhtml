@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="template.xhtml">
+	<ui:define name="content">
+		<div class="row">
+			<div class="col-md-4"><p>Todos los posts</p></div>		
+			<div class="col-md-4">
+				<ui:repeat var="p" value="#{allPosts.all()}" >
+					<p>probando</p>
+					<div class="media">
+    					<div class="media-left">
+      						<span class="glyphicon glyphicon-user media-object" style="width:60px"></span>
+    					</div>
+    					<div class="media-body">
+      						<h4 class="media-heading">#{p.usr}<small>Fecha: #{p.date}</small></h4>
+      						<p>#{p.post}</p>
+    					</div>
+  					</div>
+  					<hr></hr>
+  				</ui:repeat>			
+			</div>
+		<div class="col-md-4"></div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
