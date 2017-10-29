@@ -5,16 +5,15 @@
 <ui:composition template="template.xhtml">
 	<ui:define name="content">
 		<div class="row">
-			<div class="col-md-4"><p>Todos los posts</p></div>		
+			<div class="col-md-4"></div>		
 			<div class="col-md-4">
-				<ui:repeat var="p" value="#{allPosts.all()}" >
-					<p>probando</p>
-					<div class="media">
+				<ui:repeat var="p" value="#{allPostsMb.posts}" >
+					<div class="media post">
     					<div class="media-left">
-      						<span class="glyphicon glyphicon-user media-object" style="width:60px"></span>
+      						<span class="glyphicon glyphicon-user media-object" style="font-size: 50px;color:grey;"></span>
     					</div>
     					<div class="media-body">
-      						<h4 class="media-heading">#{p.usr}<small>Fecha: #{p.date}</small></h4>
+      						<h4 class="media-heading"><h:outputText value="#{p.usr.userName} " /><small>Fecha: <h:outputText value="#{p.date}" /></small></h4>
       						<p>#{p.post}</p>
     					</div>
   					</div>

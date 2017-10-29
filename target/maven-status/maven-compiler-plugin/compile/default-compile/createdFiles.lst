@@ -2,6 +2,6 @@ controller\PostController.class
 view\LogIn.class
 controller\UserController.class
 view\AllPosts.class
-model\DataBase.class
 model\User.class
+view\Home.class
 model\Post.class

@@ -1,42 +1,48 @@
 package controller;
 
 
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 
-import model.DataBase;
 import model.User;
 
-@Stateful
+@Stateless
 public class UserController {
-	@Inject
-	DataBase db;
-	public User verify(String username,String password){
-		//Si existe un usr con ese password devuelve el usr, sino devuelve null.
-		User usr=null;
-		for (User u : db.getUsersList()) {
-			if (u.getUserName().equals(username) && u.getPassword().equals(password)){
-				usr=u;
-			}
-		}
-		return usr;
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	public void create(User user){
+		entityManager.persist(user);
 	}
-	public User verifyNewUser(String username,String email){
-		//Devuelve null si no encontró ningún usuario con el mismo usr o email,
-		// indicando que son datos válidos para generarlo. Sino devuelve el usr.
-		User usr=null;
-		for (User u : db.getUsersList()) {
-			if (u.getUserName().equals(username) || u.getEmail().equals(email)){
-				usr=u;
-			}
-		}
-		return usr;
+	public User byId(int id){
+        return entityManager.find(User.class, id);
 	}
-	public void createUser(String username, String password, String email){
-		long uid=db.nextUserId();
-		User usr = new User(uid,username,password,email);
-		db.addUsr(usr);
+	public boolean Login(String u, String p) {
+		String hql = "select u from User u where u.userName='"+u+"' and u.password='"+p+"'";
+		TypedQuery<User> q = entityManager.createQuery(hql,User.class);
+		List<User> results = q.getResultList();
+		if (results.size()!=1) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
+	public boolean isValidUser(String u,String e){
+		String hql = "Select u from User u where u.userName='"+u+"' or u.email='"+e+"'";
+		System.out.println("***QUERY***: "+hql);
+		TypedQuery<User> q = entityManager.createQuery(hql,User.class);
+		List<User> results = q.getResultList();
+		if (results.size()>=1) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 	
 }

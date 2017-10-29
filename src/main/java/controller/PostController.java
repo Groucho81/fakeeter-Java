@@ -6,23 +6,33 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-import model.DataBase;
+
 import model.Post;
 import model.User;
 
-@Stateful
+@Stateless
 public class PostController {
-	@Inject
-	DataBase db;
-	public void createPost(User user, String message){
-		long pid=db.nextPostId();
-		Date date = new Date();
-		Post post = new Post(pid,user,date,message);
-		db.addPost(post);
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	public void create(Post post){
+		entityManager.persist(post);
 	}
+
 	public List<Post> getAll(){
-		return db.getPostsList();
+		String hql = "Select p from Post p";
+		TypedQuery<Post> q = entityManager.createQuery(hql,Post.class);
+        return q.getResultList();
+	}
+	public List<Post> getUserPosts(int id){
+		String hql = "Select p from Post p where usrId = :usrId";
+		TypedQuery<Post> q = entityManager.createQuery(hql,Post.class);
+		q.setParameter("usrId", id);
+        return q.getResultList();
 	}
 
 }

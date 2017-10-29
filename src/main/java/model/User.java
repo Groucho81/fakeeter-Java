@@ -1,19 +1,26 @@
 package model;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class User {
-	private long id;
-	private String email;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private String userName;
 	private String password;
-	
-	public User(long id,String usrName, String pwd,String mail) {
+	private String email;
+
+
+	public User(String userName, String password,String email) {
 		super();
-		this.id = id;
-		this.email = mail;
-		this.userName = usrName;
-		this.password = pwd;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;	
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {

@@ -1,31 +1,36 @@
 package model;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Post {
-	private long id;
-	private User usr;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	private int usrId;
 	private Date date;
 	private String post;
 	
-	public Post(long id, User usr, Date date,String post) {
+
+	
+	public Post(int usrId, Date date, String post) {
 		super();
-		this.id = id;
-		this.usr = usr;
+		this.usrId = usrId;
 		this.date = date;
 		this.post = post;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public int getUsrId() {
+		return usrId;
 	}
-	public User getUsr() {
-		return usr;
-	}
-	public void setUsr(User usr) {
-		this.usr = usr;
+	public void setUsrId(int u) {
+		this.usrId = u;
 	}
 	public Date getDate() {
 		return date;
@@ -38,7 +43,7 @@ public class Post {
 	}
 	@Override
 	public String toString() {
-		String s="id:"+id+" usr:"+usr+" date:"+date+" post:"+post;
+		String s="id:"+id+" usr:"+usrId+" date:"+date+" post:"+post;
 		return s;
 	}
 	

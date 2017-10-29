@@ -40,7 +40,8 @@ public class LogIn implements Serializable{
 		this.email = email;
 	}
 	public String checkLogin() {
-		if(usrCont.verify(usr, pwd)!=null) {
+		System.out.println("###### ACA ESTOY: Check in ejecutado");
+		if(usrCont.Login(usr, pwd)) {
 			return "home?faces-redirect=true";
 		}else {
 			return "register?faces-redirect=true";
@@ -48,8 +49,9 @@ public class LogIn implements Serializable{
 		}
 	}
 	public String register(){
-		if (usrCont.verifyNewUser(usr, email)==null) {
-			usrCont.createUser(usr,pwd,email);
+		if (usrCont.isValidUser(usr, email)) {
+			User u = new User(usr,pwd,email);
+			usrCont.create(u);
 			return "index?faces-redirect=true";
 		}
 		return "register?faces-redirect=true";
