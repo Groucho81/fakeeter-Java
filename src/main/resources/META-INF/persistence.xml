@@ -7,9 +7,9 @@
         <class>ar.edu.davinci.model.User</class>
         <class>ar.edu.davinci.model.Post</class>
         <properties>
-        	 <!--
+        	 
 	            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-        	  -->
+        	 
         </properties>
     </persistence-unit>
 </persistence>

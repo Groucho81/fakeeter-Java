@@ -11,11 +11,11 @@
 					<h2>Log in</h2>
 					<div class="form-group">
 						<label>Usuario</label>
-						<h:inputText styleClass="form-control" value="#{loginMb.usr}"></h:inputText>
+						<h:inputText styleClass="form-control" value="#{loginMb.userName}"></h:inputText>
 					</div>
 					<div class="form-group">
 						<label>Password</label>
-						<h:inputSecret styleClass="form-control" value="#{loginMb.pwd}"></h:inputSecret>
+						<h:inputSecret styleClass="form-control" value="#{loginMb.password}"></h:inputSecret>
 					</div>
 					<h:commandLink action="#{loginMb.checkLogin()}" styleClass="btn btn-success">Log In</h:commandLink>
 					<h:outputText value="&lt;br/&gt;" escape="false" /><h:outputText value="&lt;br/&gt;" escape="false" />

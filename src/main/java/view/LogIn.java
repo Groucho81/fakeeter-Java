@@ -17,45 +17,62 @@ public class LogIn implements Serializable{
 	
 	@Inject
 	private UserController usrCont;
-	private String usr=null;
-	private String pwd=null;
-	private String email=null;
 	
-	public String getUsr() {
-		return usr;
-	}
-	public void setUsr(String usr) {
-		this.usr = usr;
-	}
-	public String getPwd() {
-		return pwd;
-	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	private String userName;
+	private String password;
+	private String email;
+	private User user;
+
 	public String checkLogin() {
 		System.out.println("###### ACA ESTOY: Check in ejecutado");
-		if(usrCont.Login(usr, pwd)) {
-			return "home?faces-redirect=true";
-		}else {
-			return "register?faces-redirect=true";
-			
+		this.user = usrCont.login(this.userName, this.password);
+		this.userName = null;
+		this.password = null;
+		this.email=null;
+		if (this.user != null){
+			return "home?";
+		}else{
+			return "index?";
 		}
 	}
+	
 	public String register(){
-		if (usrCont.isValidUser(usr, email)) {
-			User u = new User(usr,pwd,email);
+		if (usrCont.isValidUser(userName, email)) {
+			User u = new User(userName,password,email);
 			usrCont.create(u);
 			return "index?faces-redirect=true";
 		}
 		return "register?faces-redirect=true";
 		
+	}
+	
+	public boolean isLogged(){
+		return this.user != null;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public String getEmail() {
+		return userName;
+	}
+	public void setEmail(String email) {
+		this.email=email;
 	}
 	
 	

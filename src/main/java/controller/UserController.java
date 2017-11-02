@@ -21,16 +21,12 @@ public class UserController {
 	public User byId(int id){
         return entityManager.find(User.class, id);
 	}
-	public boolean Login(String u, String p) {
-		String hql = "select u from User u where u.userName='"+u+"' and u.password='"+p+"'";
+	public User login(String userName, String password) {
+		String hql = "select u from User u where u.userName=:userName and u.password=:password";
 		TypedQuery<User> q = entityManager.createQuery(hql,User.class);
-		List<User> results = q.getResultList();
-		if (results.size()!=1) {
-			return false;
-		}else {
-			return true;
-		}
-		
+		q.setParameter("userName",userName);
+		q.setParameter("password",password);
+		return q.getSingleResult();
 	}
 	
 	public boolean isValidUser(String u,String e){
