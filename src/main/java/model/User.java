@@ -2,6 +2,7 @@ package model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +19,12 @@ public class User {
 	private String password;
 	private String email;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	private List<Post> posts;
+	
+	public User () {
+		super();
+	}
 
 	public User(String userName, String password,String email) {
 		super();

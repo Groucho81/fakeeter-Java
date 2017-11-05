@@ -30,10 +30,14 @@ public class Home{
 	}
 	
 	public void send() {
-		Date date=new Date();
-		User user = login.getUser();
-		Post p=new Post(user,date,post);
-		postCont.create(p);
+		if (post.equals("")) {
+			System.out.println("Mensaje vacío, nada que hacer");
+		}else {
+			Date date=new Date();
+			User user = login.getUser();
+			Post p=new Post(user,date,post);
+			postCont.create(p);
+		}	
 	}
 	public List<Post> getPosts(){
 		return postCont.getUserPosts(login.getUser());

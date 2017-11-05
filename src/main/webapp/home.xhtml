@@ -22,10 +22,11 @@
 		<hr></hr>
 		<div class="row">
 			<div class="col-md-4">
-				<p>Tus Post:</p>
+				<p>Tus propios Post:</p>
 			</div>
 			<div class="col-md-4">
 				<ui:repeat var="p" value="#{homeMb.posts}">
+					<p>#{p.toString()}</p>
 					<div class="media post">
 						<div class="media-left">
 							<span class="glyphicon glyphicon-user media-object"
@@ -33,7 +34,7 @@
 						</div>
 						<div class="media-body">
 							<h4 class="media-heading">
-								<h:outputText value="#{p.user.userName} " />
+								<!--  <h:outputText value="#{p.user} " /> -->
 								<small>Fecha: <h:outputText value="#{p.date}" /></small>
 							</h4>
 							<p>#{p.post}</p>

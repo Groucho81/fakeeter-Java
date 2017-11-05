@@ -24,8 +24,13 @@ public class LogIn implements Serializable{
 	private User user;
 
 	public String checkLogin() {
-		System.out.println("###### ACA ESTOY: Check in ejecutado");
-		this.user = usrCont.login(this.userName, this.password);
+		try {
+			this.user = usrCont.login(this.userName, this.password);
+		}catch(Exception e){
+			System.out.println("Error de logueo");
+			return "index?";
+		}
+		
 		this.userName = null;
 		this.password = null;
 		this.email=null;

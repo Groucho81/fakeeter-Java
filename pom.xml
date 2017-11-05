@@ -9,11 +9,11 @@
 	<packaging>war</packaging>
 	
 	<name>Fakeeter micro blogging</name>
-	<url>$$$ URL del repo de github $$$</url>
+	<url>https://github.com/Groucho81/fakeeter-Java</url>
 
 	<properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	</properties>
 
   <dependencies>
     <dependency>

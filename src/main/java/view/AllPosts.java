@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +23,6 @@ public class AllPosts implements Serializable{
 	private String usr;
 	private Date date;
 	private String post;
-	private List<Post> allThePosts;
 
 	public String getUsr() {
 		return usr;

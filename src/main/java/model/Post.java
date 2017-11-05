@@ -20,6 +20,10 @@ public class Post {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
 	
+	public Post () {
+		super();
+	}
+	
 	public Post(User user, Date date, String post) {
 		super();
 		this.date = date;
