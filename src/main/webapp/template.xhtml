@@ -23,7 +23,9 @@
 		<div class="col-md-7"></div>
 		<div class="col-md-2">
 			<h:form>
-				<h:outputLink styleClass="btn btn-success" value = "allPosts.xhtml?faces-redirect=true" >Ver Posts</h:outputLink>
+				<h:outputLink styleClass="btn btn-success mybuttons" value = "allPosts.xhtml?faces-redirect=true" >Ver Posts</h:outputLink>
+				<h:outputLink styleClass="btn btn-success mybuttons" rendered="#{loginMb.logged}" value = "home.xhtml?faces-redirect=true" >Tus Posts</h:outputLink>
+				<h:outputLink styleClass="btn btn-success mybuttons" rendered="#{! loginMb.logged}" value = "index.xhtml?faces-redirect=true" >Logueate</h:outputLink>
 			</h:form>
 		</div>
 	</div>

@@ -31,7 +31,7 @@ public class Home{
 	
 	public void send() {
 		if (post.equals("")) {
-			System.out.println("Mensaje vacío, nada que hacer");
+			System.out.println("Mensaje vacio, nada que hacer");
 		}else {
 			Date date=new Date();
 			User user = login.getUser();

@@ -42,6 +42,12 @@ public class Post {
 	public String getPost() {
 		return post;
 	}
+	public void setPost(String post) {
+		this.post=post;
+	}
+	public String getUserName() {
+		return user.getUserName();
+	}
 	@Override
 	public String toString() {
 		String s="id:"+id+" usr:"+user.getId()+" date:"+date+" post:"+post;
