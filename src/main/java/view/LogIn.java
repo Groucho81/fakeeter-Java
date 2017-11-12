@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import controller.UserController;
 import model.User;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 
 
 @Named("loginMb")
@@ -21,13 +23,18 @@ public class LogIn implements Serializable{
 	private String userName;
 	private String password;
 	private String email;
-	private User user;
+	private User user=new User();
 
 	public String checkLogin() {
 		try {
-			this.user = usrCont.login(this.userName, this.password);
+			System.out.println("User = "+user.toString());
+			userName=user.getUserName();
+			password=user.getPassword();
+			this.user = usrCont.login(userName, password);
 		}catch(Exception e){
 			System.out.println("Error de logueo");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Nombre de Usuario o Password incorrecto",null);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "index?";
 		}
 		
@@ -52,7 +59,9 @@ public class LogIn implements Serializable{
 	}
 	
 	public boolean isLogged(){
-		return this.user != null;
+		Boolean b= this.user.getUserName() != null;
+		//System.out.println("Se ejecuta el chequeo del login "+String.valueOf(b)+" User="+this.user.getUserName());
+		return b;
 	}
 	
 	public String getUserName() {

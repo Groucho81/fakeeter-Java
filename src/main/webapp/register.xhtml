@@ -11,22 +11,27 @@
 					<h2>Ingresa tus datos</h2>
 					<div class="form-group">
 						<label>Usuario</label>
-						<h:inputText styleClass="form-control" value="#{loginMb.userName}"></h:inputText>
+						<h:inputText id="name_form" styleClass="form-control" value="#{loginMb.user.userName}" label="Usuario"></h:inputText>
 					</div>
 					<div class="form-group">
 						<label>Password</label>
-						<h:inputSecret styleClass="form-control" value="#{loginMb.password}"></h:inputSecret>
+						<h:inputSecret id="password_form" styleClass="form-control" value="#{loginMb.user.password}" label="Password"></h:inputSecret>
 					</div>
 					<div class="form-group">
 						<label>Email</label>
-						<h:inputText styleClass="form-control" value="#{loginMb.email}" validatorMessage="#{loginMb.email} is not valid">
-							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-						</h:inputText>
+						<h:inputText id="email_form" styleClass="form-control" value="#{loginMb.user.email}" label="Email"></h:inputText>
 					</div>
 					<h:commandLink action="#{loginMb.register()}" styleClass="btn btn-success">Registrar</h:commandLink>
 				</h:form>
 			</div>
-		<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<h:messages globalOnly="false" layout="table" errorClass="alert alert-danger" />
+			</div>
+			<div class="col-md-4"></div>
 		</div>
 	</ui:define>
 </ui:composition>

@@ -1,8 +1,0 @@
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:44 -0300] "GET / HTTP/1.1" 200 3304
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:45 -0300] "GET /javax.faces.resource/style.css.xhtml;jsessionid=DE1787E2F77637609C4A0CBAB9E48C03?ln=css HTTP/1.1" 200 723
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:45 -0300] "GET /javax.faces.resource/oamSubmit.js.xhtml?ln=org.apache.myfaces HTTP/1.1" 200 1874
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:45 -0300] "GET /resources/images/fakeeter.png;jsessionid=DE1787E2F77637609C4A0CBAB9E48C03 HTTP/1.1" 200 30880
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:46 -0300] "GET /javax.faces.resource/21.jpg.xhtml?ln=images HTTP/1.1" 200 5166408
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:57 -0300] "POST /index.xhtml;jsessionid=DE1787E2F77637609C4A0CBAB9E48C03 HTTP/1.1" 200 4081
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:57 -0300] "GET /javax.faces.resource/style.css.xhtml?ln=css HTTP/1.1" 200 723
-0:0:0:0:0:0:0:1 - - [05/Nov/2017:22:48:57 -0300] "GET /resources/images/fakeeter.png HTTP/1.1" 200 30880

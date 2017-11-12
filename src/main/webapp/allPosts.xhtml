@@ -2,27 +2,65 @@
 <!DOCTYPE html>
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
-<ui:composition template="template.xhtml">
+<ui:composition template="template-nav.xhtml">
 	<ui:define name="content">
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+			    <ul class="nav navbar-nav">
+			      <li><h:outputLink rendered="#{loginMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li class="active"><a href="allPosts.xhtml">Todos los Mensajes</a></li>
+			    </ul>
+			    <h:form rendered="#{loginMb.isLogged()}" styleClass="navbar-form navbar-left">
+						<div class="form-group">
+							<h:inputText id="new_post" maxlength="140" styleClass="form-control" value="#{homeMb.post}"></h:inputText>
+						</div>
+						<h:commandButton action="#{homeMb.send()}" value="Enviar" styleClass="btn btn-success">
+	         			</h:commandButton>
+				</h:form>
+			</div>
+		</nav>
 		<div class="row">
-			<div class="col-md-4"></div>		
-			<div class="col-md-4">
-				<ui:repeat var="p" value="#{allPostsMb.posts}" >
+			<div class="col-md-3"></div>		
+			<div class="col-md-6">
+				<ui:repeat var="p" value="#{allPostsMb.posts}" id="post_list" >
 					<div class="media post">
-    					<div class="media-left">
-      						<span class="glyphicon glyphicon-user media-object" style="font-size: 50px;color:grey;"></span>
-    					</div>
-    					<div class="media-body">
-    						<h4 class="media-heading"><h:outputText value="#{p.userName} " />
-    							<small>Fecha: <h:outputText value="#{p.date}" /></small>
-    						</h4>
-      						<p>#{p.post}</p>
-    					</div>
-  					</div>
-  					<hr></hr>
+						<div class="media-left">
+							<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<h:outputText value="#{p.userName} " />
+								<small>Fecha: <h:outputText value="#{p.date}" /></small>
+							</h4>
+							<p>#{p.post}</p>
+							<span class="label label-default">Comentarios:</span>
+							<ui:repeat var="comment" value="#{commentMb.listByPost(p)}">
+							<div class="media">
+									<div class="media-body">
+										<h4 class="media-heading">
+											<h:outputText value="#{comment.user.userName}" />
+											<small>Fecha: 
+												<h:outputText value="#{comment.date}" >
+													<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+												</h:outputText>
+											</small>
+										</h4>
+										<h:outputText value="#{comment.content}" />
+									</div>
+									<div class="media-right">
+										<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+									</div>							
+							</div>
+							</ui:repeat>
+							<h:form rendered="#{loginMb.isLogged()}">
+										<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
+										<h:commandLink styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" >Comentar</h:commandLink>
+							</h:form>
+						</div>
+					</div>
   				</ui:repeat>			
 			</div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
 		</div>
 	</ui:define>
 </ui:composition>

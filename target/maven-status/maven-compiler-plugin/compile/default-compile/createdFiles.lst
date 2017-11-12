@@ -1,7 +1,0 @@
-controller\PostController.class
-view\LogIn.class
-controller\UserController.class
-view\AllPosts.class
-model\User.class
-view\Home.class
-model\Post.class

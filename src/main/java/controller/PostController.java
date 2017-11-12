@@ -20,12 +20,12 @@ public class PostController {
 	}
 
 	public List<Post> getAll(){
-		String hql = "Select p from Post p";
+		String hql = "Select p from Post p order by p.date desc";
 		TypedQuery<Post> q = entityManager.createQuery(hql,Post.class);
         return q.getResultList();
 	}
 	public List<Post> getUserPosts(User user){
-		String hql = "Select p from Post p where p.user.id = :userId";
+		String hql = "Select p from Post p where p.user.id = :userId order by p.date desc";
 		TypedQuery<Post> q = entityManager.createQuery(hql,Post.class);
 		q.setParameter("userId", user.getId());
         return q.getResultList();

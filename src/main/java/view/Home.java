@@ -18,13 +18,12 @@ public class Home{
 	
 	@Inject
 	private LogIn login;
-	
 	private String post;
-	
 	
 	public String getPost() {
 		return post;
 	}
+	
 	public void setPost(String post) {
 		this.post = post;
 	}
@@ -33,12 +32,14 @@ public class Home{
 		if (post.equals("")) {
 			System.out.println("Mensaje vacio, nada que hacer");
 		}else {
+			System.out.println("Vamos a enviar un post");
 			Date date=new Date();
 			User user = login.getUser();
 			Post p=new Post(user,date,post);
 			postCont.create(p);
 		}	
 	}
+	
 	public List<Post> getPosts(){
 		return postCont.getUserPosts(login.getUser());
 	}
