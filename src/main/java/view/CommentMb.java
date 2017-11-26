@@ -2,6 +2,9 @@ package view;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
@@ -14,6 +17,7 @@ import model.Post;
 import model.User;
 
 @Named
+@Stateless
 public class CommentMb {
 
 	@Inject
@@ -27,8 +31,16 @@ public class CommentMb {
 	private String comment;
 	
 	public void create(Post post){
-		User user = logIn.getUser();
-		commentCntrl.create(user, post, comment);
+		System.out.println("CommentMb.create.comment: "+this.comment);
+		System.out.println("CommentMb.create.post: "+post.getPost());
+		try {
+			User user = logIn.getUser();
+			commentCntrl.create(user, post, this.comment);
+		}catch(Exception e){
+			e.printStackTrace();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar el comentario", null);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 	}
 
 	public List<Comment> listByPost(Post post){
@@ -41,6 +53,7 @@ public class CommentMb {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+		System.out.println("CommentMb.setComment.comment: "+comment);
 	}
 
 }

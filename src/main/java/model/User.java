@@ -6,7 +6,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -23,14 +25,22 @@ public class User {
 	private String userName;
 	
 	@NotNull(message = "El campo nombre no puede estar vacio")
-	@Size(min = 4, max = 15, message = "Tu password debe tener un minimo de 8 caracteres y un maximo de 15")
+	@Size(min = 4, max = 15, message = "Tu password debe tener un minimo de 4 caracteres y un maximo de 15")
 	private String password;
 	
 	@NotNull(message = "El campo email no puede estar vacio")
-	@Pattern(regexp="^([a-zA-Z0-9\\-\\.\\_]+)'+'(\\@)([a-zA-Z0-9\\-\\.]+)'+'(\\.)([a-zA-Z]{2,4})$", message="Campo de email no valido")
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+                 message="{invalid.email}")
 	private String email;
 	
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	//@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne
+	private Image avatar;
+	
+	//@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user")
 	private List<Post> posts;
 	
 	public User () {
@@ -41,7 +51,7 @@ public class User {
 		super();
 		this.userName = userName;
 		this.password = password;
-		this.email = email;	
+		this.email = email;
 	}
 	public int getId() {
 		return id;
@@ -66,6 +76,12 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public Image getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(Image avatar) {
+		this.avatar = avatar;
 	}
 	public List<Post> getPosts() {
 		return posts;

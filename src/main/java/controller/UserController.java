@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-
+import model.Image;
 import model.User;
 
 @Stateless
@@ -40,5 +40,7 @@ public class UserController {
 			return true;
 		}
 	}
-	
+	public void update (User user) {
+		entityManager.merge(user);
+	}
 }

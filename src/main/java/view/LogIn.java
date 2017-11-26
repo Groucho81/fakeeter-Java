@@ -20,17 +20,12 @@ public class LogIn implements Serializable{
 	@Inject
 	private UserController usrCont;
 	
-	private String userName;
-	private String password;
-	private String email;
 	private User user=new User();
 
 	public String checkLogin() {
 		try {
-			System.out.println("User = "+user.toString());
-			userName=user.getUserName();
-			password=user.getPassword();
-			this.user = usrCont.login(userName, password);
+			System.out.println("********** User = "+user.getUserName()+" "+user.getPassword());
+			this.user = usrCont.login(user.getUserName(), user.getPassword());
 		}catch(Exception e){
 			System.out.println("Error de logueo");
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Nombre de Usuario o Password incorrecto",null);
@@ -38,55 +33,43 @@ public class LogIn implements Serializable{
 			return "index?";
 		}
 		
-		this.userName = null;
-		this.password = null;
-		this.email=null;
 		if (this.user != null){
-			return "home?";
+			return "home?faces-redirect=true";
 		}else{
 			return "index?";
 		}
 	}
 	
 	public String register(){
-		if (usrCont.isValidUser(userName, email)) {
-			User u = new User(userName,password,email);
-			usrCont.create(u);
-			return "index?faces-redirect=true";
+		System.out.println("email:"+user.getEmail()+" user:"+user.getUserName()+" password:"+user.getPassword());
+		try{
+			if (usrCont.isValidUser(user.getUserName(), user.getEmail())) {
+				usrCont.create(this.user);
+				return "index?faces-redirect=true";
+			}
+			return "register?faces-redirect=true";	
+		}catch(Exception e){
+			System.out.println("Error de registracion");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Los datos ingresados no son validos",null);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "register?";
 		}
-		return "register?faces-redirect=true";
-		
 	}
-	
+	public String logout() {
+		user = new User();
+		return "index?";
+	}
 	public boolean isLogged(){
 		Boolean b= this.user.getUserName() != null;
 		//System.out.println("Se ejecuta el chequeo del login "+String.valueOf(b)+" User="+this.user.getUserName());
 		return b;
 	}
 	
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public String getEmail() {
-		return userName;
-	}
-	public void setEmail(String email) {
-		this.email=email;
 	}
 	
 	

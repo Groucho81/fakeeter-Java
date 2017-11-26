@@ -6,6 +6,8 @@
         <jta-data-source>java:openejb/Resource/MysqlDs</jta-data-source>
         <class>ar.edu.davinci.model.User</class>
         <class>ar.edu.davinci.model.Post</class>
+        <class>ar.edu.davinci.model.Image</class>
+        <class>ar.edu.davinci.model.Comment</class>
         <properties>
         	 
 	            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>

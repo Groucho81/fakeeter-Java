@@ -1,67 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:ui="http://java.sun.com/jsf/facelets"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition template="template-nav.xhtml">
 	<ui:define name="content">
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 			    <ul class="nav navbar-nav">
-			    	<li class="active"><h:outputLink rendered="#{loginMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
-			      	<li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
+			      <li class="active"><h:outputLink rendered="#{loginMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
 			    </ul>
-			    <h:form rendered="#{loginMb.isLogged()}" styleClass="navbar-form navbar-left">
-						<div class="form-group">
-							<h:inputText id="new_post" maxlength="140" styleClass="form-control" value="#{homeMb.post}"></h:inputText>
-						</div>
-						<h:commandButton action="#{homeMb.send()}" value="Enviar" styleClass="btn btn-success">
-	         			</h:commandButton>
-				</h:form>
+			    <h:panelGroup rendered="#{loginMb.isLogged()}" styleClass="navbar-form navbar-left">
+			    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#postModal">Crear Post</button>
+			    </h:panelGroup>
+			    <h:panelGroup rendered="#{loginMb.isLogged()}">
+				    <ul class="nav navbar-nav navbar-right">
+				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Cambiar Avatar</a></li>
+	      				<h:form styleClass="navbar-form navbar-right">
+	                		<h:commandLink action="#{loginMb.logout()}" rendered="#{loginMb.isLogged()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
+						</h:form>
+	    			</ul>
+    			</h:panelGroup>
 			</div>
 		</nav>
+		<!-- Modals -->
+		<!-- Modal to create post -->
+		<div id="postModal" class="modal fade" role="dialog">
+  			<div class="modal-dialog">
+		    <!-- Modal content-->
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+        				<h4 class="modal-title">Envia un post con imagen</h4>
+      				</div>
+      				<div class="modal-body">
+				        <h:form enctype="multipart/form-data">
+							<div class="form-group">
+								<label>Mensaje</label>
+								<h:inputText maxlength="140" styleClass="form-control" value="#{homeMb.post}"></h:inputText>
+							</div>
+							<div class="form-group">
+								<label>Imagen</label>
+								<h:inputFile id="filePost" value="#{homeMb.file}"/>
+							</div>
+							<h:commandButton action="#{homeMb.send()}" value="Enviar" styleClass="btn btn-success">
+					        </h:commandButton>
+						</h:form>
+      				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+    			</div>
+			</div>
+		</div>
+		<!-- Modal to change avatar -->
+		<div id="avatarModal" class="modal fade" role="dialog">
+  			<div class="modal-dialog">
+		    <!-- Modal content-->
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+        				<h4 class="modal-title">Cambia tu avatar</h4>
+      				</div>
+      				<div class="modal-body">
+				        <h:form enctype="multipart/form-data">
+							<div class="form-group">
+								<label>Elegi una imagen de perfil</label>
+								<h:inputFile id="fileAvatar" value="#{homeMb.file}"/>
+								<h:commandButton action="#{homeMb.changeAvatar()}" value="Enviar" styleClass="btn btn-success">
+									<!--  <f:ajax render="postList avatarModal" execute="@form"></f:ajax> -->
+					         	</h:commandButton>
+							</div>	
+						</h:form>
+      				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+    			</div>
+			</div>
+		</div>
+		<!-- End of Modals -->
 		<div class="row">
-			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				<h:messages id="registry_errors" globalOnly="false" layout="table" errorClass="alert alert-danger" />
+			</div>
 			<div class="col-md-6" >
-				<h:panelGroup layout="block" id="post_list">
-				<ui:repeat var="p" value="#{homeMb.posts}" id="post_list" >
+				<h:panelGroup id="postList">
+				<ui:repeat var="p" value="#{homeMb.posts}">
 					<div class="media post">
 						<div class="media-left">
-							<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+							<h:panelGroup rendered="#{p.user.avatar.path eq null}">
+								<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{p.user.avatar.path ne null}">
+								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:60px"/>
+							</h:panelGroup>
 						</div>
 						<div class="media-body">
 							<h4 class="media-heading">
 								<h:outputText value="#{p.userName} " />
 								<small>Fecha: <h:outputText value="#{p.date}" /></small>
 							</h4>
-							<p>#{p.post}</p>
+							<h:panelGroup rendered="#{p.image ne null}">
+								<div class="thumbnail">
+	        						<img src="/img/#{p.image.path}" class="img-responsive" alt="Imagen del Post"></img>
+								</div>
+								<p>#{p.post}</p>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{p.image eq null}">
+								<p>#{p.post}</p>
+							</h:panelGroup>
 							<span class="label label-default">Comentarios:</span>
-							<ui:repeat var="comment" value="#{commentMb.listByPost(p)}">
-							<div class="media">
-									<div class="media-body">
-										<h4 class="media-heading">
-											<h:outputText value="#{comment.user.userName}" />
-											<small>Fecha: 
-												<h:outputText value="#{comment.date}" >
-													<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-												</h:outputText>
-											</small>
-										</h4>
-										<h:outputText value="#{comment.content}" />
-									</div>
-									<div class="media-right">
-										<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
-									</div>							
-							</div>
-							</ui:repeat>
-							<h:form>
+							<h:form id="comment_form">
+								<div class="form-group">
+									<h:panelGroup id="comment_list">
+										<ui:repeat var="comment" value="#{commentMb.listByPost(p)}">
+											<div class="media">
+												<div class="media-body">
+													<h4 class="media-heading">
+														<h:outputText value="#{comment.user.userName}" />
+														<small>Fecha: 
+															<h:outputText value="#{comment.date}" >
+																<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+															</h:outputText>
+														</small>
+													</h4>
+													<h:outputText value="#{comment.content}" />
+												</div>
+												<div class="media-right">
+													<h:panelGroup rendered="#{comment.user.avatar.path ne null}">
+														<img src="/img/#{comment.user.avatar.path}" class="media-object" style="width:60px"/>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{comment.user.avatar.path eq null}">
+														<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+													</h:panelGroup>
+												</div>							
+											</div>
+										</ui:repeat>
+									</h:panelGroup>
+								</div>
+								<div class="form-group">							
 										<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
-										<h:commandLink styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" >Comentar</h:commandLink>
+										<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
+											<f:ajax render="comment_list" execute="@form"></f:ajax>
+										</h:commandButton>
+								</div>
 							</h:form>
 						</div>
 					</div>
-  				</ui:repeat>			
-				</h:panelGroup>
+  				</ui:repeat>
+  				</h:panelGroup>			
 			</div>
 		</div>
 		<div class="col-md-3"></div>

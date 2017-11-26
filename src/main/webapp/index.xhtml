@@ -4,11 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
 <ui:composition template="template.xhtml">
 	<ui:define name="content">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-4">			
 			</div>		
 			<div class="col-md-4 whiteForm">
-				<h:form>
+				<h:form id="login_form">
 					<h2>Log in</h2>
 					<div class="form-group">
 						<label>Usuario</label>
@@ -18,12 +19,15 @@
 						<label>Password</label>
 						<h:inputSecret id="password_form" styleClass="form-control" value="#{loginMb.user.password}" label="Password"></h:inputSecret>
 					</div>
-					<h:commandLink action="#{loginMb.checkLogin()}" styleClass="btn btn-success">Log In</h:commandLink>
+					<h:commandLink action="#{loginMb.checkLogin()}" styleClass="btn btn-success">Log In
+						<f:ajax execute="password_form name_form" render="errors"></f:ajax>
+					</h:commandLink>
 					<h:outputText value="&lt;br/&gt;" escape="false" /><h:outputText value="&lt;br/&gt;" escape="false" />
 					<h:outputText value = "No tenes usuario?  "/>
 				</h:form>
 				<h:form>
-					<h:commandButton action="register.xhtml" value="Registrate" styleClass="btn btn-primary"></h:commandButton>
+					<h:commandButton action="register.xhtml" value="Registrate" styleClass="btn btn-primary">
+					</h:commandButton>
 				</h:form>		
 			</div>
 		<div class="col-md-3"></div>
@@ -31,10 +35,11 @@
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<h:messages globalOnly="false" layout="table" errorClass="alert alert-danger" />
+				<h:messages id="errors" globalOnly="false" layout="table" errorClass="alert alert-danger" />
 			</div>
 			<div class="col-md-4"></div>
 		</div>
+	</div>
 	</ui:define>
 </ui:composition>
 </html>

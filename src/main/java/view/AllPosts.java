@@ -1,11 +1,7 @@
 package view;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,9 +10,7 @@ import model.Post;
 
 
 @Named("allPostsMb")
-@SessionScoped
-public class AllPosts implements Serializable{
-	private static final long serialVersionUID = 991515424619865689L;
+public class AllPosts{
 	@Inject
 	private PostController postCont;
 

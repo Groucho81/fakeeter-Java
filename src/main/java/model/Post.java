@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -23,18 +24,24 @@ public class Post {
 	private Date date;
 	private String post;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	//@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	private User user;
+	
+	//@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne
+	private Image image;
 	
 	public Post () {
 		super();
 	}
 	
-	public Post(User user, Date date, String post) {
+	public Post(User user, Date date, String post,Image image) {
 		super();
 		this.date = date;
 		this.post = post;
 		this.user = user;
+		this.image = image;
 	}
 	public int getId() {
 		return id;
@@ -54,9 +61,18 @@ public class Post {
 	public String getUserName() {
 		return user.getUserName();
 	}
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	public User getUser(){
+		return user;
+	}
 	@Override
 	public String toString() {
-		String s="id:"+id+" usr:"+user.getId()+" date:"+date+" post:"+post;
+		String s="id:"+id+" usr:"+user.getId()+" date:"+date+" post:"+post+" Img:"+image.getPath();
 		return s;
 	}
 	

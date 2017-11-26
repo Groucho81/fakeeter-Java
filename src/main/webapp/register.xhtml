@@ -21,7 +21,9 @@
 						<label>Email</label>
 						<h:inputText id="email_form" styleClass="form-control" value="#{loginMb.user.email}" label="Email"></h:inputText>
 					</div>
-					<h:commandLink action="#{loginMb.register()}" styleClass="btn btn-success">Registrar</h:commandLink>
+					<h:commandLink action="#{loginMb.register()}" styleClass="btn btn-success">Registrar
+					<f:ajax render="registry_errors" execute="name_form password_form email_form"></f:ajax>
+					</h:commandLink>
 				</h:form>
 			</div>
 			<div class="col-md-4"></div>
@@ -29,7 +31,7 @@
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<h:messages globalOnly="false" layout="table" errorClass="alert alert-danger" />
+				<h:messages id="registry_errors" globalOnly="false" layout="table" errorClass="alert alert-danger" />
 			</div>
 			<div class="col-md-4"></div>
 		</div>
