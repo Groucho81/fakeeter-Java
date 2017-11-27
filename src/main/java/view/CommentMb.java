@@ -36,6 +36,7 @@ public class CommentMb {
 		try {
 			User user = logIn.getUser();
 			commentCntrl.create(user, post, this.comment);
+			comment="";
 		}catch(Exception e){
 			e.printStackTrace();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar el comentario", null);
