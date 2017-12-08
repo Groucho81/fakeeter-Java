@@ -9,17 +9,17 @@
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 			    <ul class="nav navbar-nav">
-			      <li class="active"><h:outputLink rendered="#{loginMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li class="active"><h:outputLink value="home.xhtml">Tus Mensajes</h:outputLink></li>
 			      <li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
 			    </ul>
-			    <h:panelGroup rendered="#{loginMb.isLogged()}" styleClass="navbar-form navbar-left">
+			    <h:panelGroup styleClass="navbar-form navbar-left">
 			    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#postModal">Crear Post</button>
 			    </h:panelGroup>
-			    <h:panelGroup rendered="#{loginMb.isLogged()}">
+			    <h:panelGroup>
 				    <ul class="nav navbar-nav navbar-right">
 				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Cambiar Avatar</a></li>
 	      				<h:form styleClass="navbar-form navbar-right">
-	                		<h:commandLink action="#{loginMb.logout()}" rendered="#{loginMb.isLogged()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
+	                		<h:commandLink action="#{AuthMb.logout()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
 						</h:form>
 	    			</ul>
     			</h:panelGroup>

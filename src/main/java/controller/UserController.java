@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import model.Image;
 import model.User;
 
 @Stateless
@@ -31,7 +29,6 @@ public class UserController {
 	
 	public boolean isValidUser(String u,String e){
 		String hql = "Select u from User u where u.userName='"+u+"' or u.email='"+e+"'";
-		System.out.println("***QUERY***: "+hql);
 		TypedQuery<User> q = entityManager.createQuery(hql,User.class);
 		List<User> results = q.getResultList();
 		if (results.size()>=1) {

@@ -36,7 +36,6 @@ public class Image {
 	}
 
 	public String getPath() {
-		//System.out.println("Image.getPath: "+path);
 		return path;
 	}
 

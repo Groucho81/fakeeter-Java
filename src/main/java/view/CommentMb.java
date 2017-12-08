@@ -10,7 +10,7 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+import auth.AuthMb;
 import controller.CommentController;
 import model.Comment;
 import model.Post;
@@ -24,17 +24,15 @@ public class CommentMb {
 	private CommentController commentCntrl;
 	
 	@Inject
-	private LogIn logIn;
+	private AuthMb authMb;
 	
 	@NotNull
 	@Size(min=2,max=255)
 	private String comment;
 	
 	public void create(Post post){
-		System.out.println("CommentMb.create.comment: "+this.comment);
-		System.out.println("CommentMb.create.post: "+post.getPost());
 		try {
-			User user = logIn.getUser();
+			User user = authMb.getUser();
 			commentCntrl.create(user, post, this.comment);
 			comment="";
 		}catch(Exception e){
@@ -54,7 +52,6 @@ public class CommentMb {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-		System.out.println("CommentMb.setComment.comment: "+comment);
 	}
 
 }
