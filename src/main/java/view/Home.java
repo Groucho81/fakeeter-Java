@@ -28,20 +28,27 @@ public class Home{
 	@Inject 
 	private ImageController imgCntl;
 	
-	@Inject UserController userCont;
+	@Inject 
+	private UserController userCont;
 	
 	@Inject
 	private AuthMb authMb;
 	private String post;
-	private Part file;
+	private Part file=null;
 	private Image image;
-	private User user;
+	private String password=null;
 	
 	public String getPost() {
 		return post;
 	}
 	public void setPost(String post) {
 		this.post = post;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public Part getFile() {
 		return file;
@@ -55,7 +62,7 @@ public class Home{
 			if(this.file != null && this.file.getSize() > 0 && this.file.getContentType().startsWith("image")){
 				this.image = imgCntl.upload(this.file);
 			}
-			if (this.post==null && this.image==null) {
+			if (this.post.length()==0 && this.image==null) {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Texto e imagen vacios. Nada que publicar", null);
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}else {
@@ -69,23 +76,40 @@ public class Home{
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}
-	public void changeAvatar() {
-		try{
-			if(file != null && file.getSize() > 0 && file.getContentType().startsWith("image")){
-				image = imgCntl.upload(file);
-			}
-			user=authMb.getUser();
-			user.setAvatar(image);
-			userCont.update(user);		
-		} catch (Exception e){
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error interno", null);
+	public void changeProfile() {
+		
+		if (this.password.length()==0 && file == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"password e imagen vacios. Nada que modificar", null);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}else {
+			User loggedUser=authMb.getUser();
+			try{
+				if(file != null && file.getSize() > 0 && file.getContentType().startsWith("image")){
+					image = imgCntl.upload(file);
+					loggedUser.setAvatar(image);
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error con el archivo seleccionado", null);
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+			try {
+				if (password != null && password.length()>0) {
+					loggedUser.setPassword(password);			
+				}			
+			} catch (Exception e){
+				e.printStackTrace();
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error con la password", null);
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+			userCont.update(loggedUser);
+			file=null;
+			image=null;
 		}
 		
 	}
 	public List<Post> getPosts(){
 		return postCont.getUserPosts(authMb.getUser());
 	}
-
+	
 }

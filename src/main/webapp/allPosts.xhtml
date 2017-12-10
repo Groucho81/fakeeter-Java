@@ -118,6 +118,12 @@
 							<h:panelGroup rendered="#{p.image eq null}">
 								<p>#{p.post}</p>
 							</h:panelGroup>
+							<h:form>
+								<label>Me Gusta (#{likesMb.likeCount(p)}) : </label>
+								<h:commandLink action="#{likesMb.like(p)}" styleClass="btn btn-primary #{likesMb.isLikable(p)}"><span class="glyphicon glyphicon-thumbs-up"></span>
+									<f:ajax render="@form"></f:ajax>
+								</h:commandLink>
+							</h:form>
 							<span class="label label-default">Comentarios:</span>
 							<h:form id="comment_form">
 								<div class="form-group">
