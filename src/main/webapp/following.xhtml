@@ -10,8 +10,8 @@
 			<div class="container-fluid">
 			    <ul class="nav navbar-nav">
 			      <li><h:outputLink rendered="#{authMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
-			      <li><h:outputLink rendered="#{authMb.isLogged()}" value="following.xhtml">Siguiendo</h:outputLink></li>
-			      <li class="active"><a href="allPosts.xhtml">Todos los Mensajes</a></li>
+			      <li class="active"><h:outputLink rendered="#{authMb.isLogged()}" value="following.xhtml">Siguiendo</h:outputLink></li>
+			      <li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
 			    </ul>
 			    <h:panelGroup rendered="#{authMb.isLogged()}" styleClass="navbar-form navbar-left">
 			    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#postModal">Crear Post</button>
@@ -95,7 +95,7 @@
 			</div>
 			<div class="col-md-6" >
 				<h:panelGroup id="postList">
-				<ui:repeat var="p" value="#{allPostsMb.posts}" id="post_list" >
+				<ui:repeat var="p" value="#{followerMb.posts}" id="post_list" >
 					<div class="media post">
 						<div class="media-left">
 							<h:panelGroup rendered="#{p.user.avatar.path eq null}">
@@ -103,14 +103,6 @@
 							</h:panelGroup>
 							<h:panelGroup rendered="#{p.user.avatar.path ne null}">
 								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:80px"/>
-							</h:panelGroup>
-							<h:panelGroup>
-								<br></br>
-								<h:form>
-									<h:commandLink action="#{followerMb.follow(p.user)}" styleClass="btn btn-primary #{followerMb.canFollow(p.user)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>Seguir
-										<f:ajax render="@form"></f:ajax>
-									</h:commandLink>
-								</h:form>
 							</h:panelGroup>
 						</div>
 						<div class="media-body">

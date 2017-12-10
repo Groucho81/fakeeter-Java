@@ -16,11 +16,11 @@ public class LikeController {
 	
 	private UserLike like;
 	
-	public void LikeIt (User user, Post post) {
+	public void likeIt (User user, Post post) {
 		like= new UserLike(user,post);
 		entityManager.persist(like);
 	}
-	public int LikeCount (Post post) {
+	public int likeCount (Post post) {
 		String hql = "select l from UserLike l where l.post.id = :postId";
 		TypedQuery<UserLike> q = entityManager.createQuery(hql,UserLike.class);
 		q.setParameter("postId", post.getId());

@@ -30,5 +30,12 @@ public class PostController {
 		q.setParameter("userId", user.getId());
         return q.getResultList();
 	}
+	
+	public List<Post> getFolowPosts (User user){
+		String hql = "Select p from Post p where p.user.id in (Select f.userFollowed from Follower f where f.user.id = :userId) order by p.date desc";
+		TypedQuery<Post> q = entityManager.createQuery(hql,Post.class);
+		q.setParameter("userId", user.getId());
+		return q.getResultList();
+	}
 
 }

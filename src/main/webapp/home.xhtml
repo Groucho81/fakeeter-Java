@@ -10,6 +10,7 @@
 			<div class="container-fluid">
 			    <ul class="nav navbar-nav">
 			      <li class="active"><h:outputLink value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li><h:outputLink rendered="#{authMb.isLogged()}" value="following.xhtml">Siguiendo</h:outputLink></li>
 			      <li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
 			    </ul>
 			    <h:panelGroup styleClass="navbar-form navbar-left">
@@ -96,10 +97,10 @@
 					<div class="media post">
 						<div class="media-left">
 							<h:panelGroup rendered="#{p.user.avatar.path eq null}">
-								<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+								<img src="resources/images/img_avatar2.png" class="media-object" style="width:80px"/>
 							</h:panelGroup>
 							<h:panelGroup rendered="#{p.user.avatar.path ne null}">
-								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:60px"/>
+								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:80px"/>
 							</h:panelGroup>
 						</div>
 						<div class="media-body">

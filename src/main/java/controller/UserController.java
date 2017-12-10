@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import model.Post;
 import model.User;
 
 @Stateless
@@ -39,5 +41,12 @@ public class UserController {
 	}
 	public void update (User user) {
 		entityManager.merge(user);
+	}
+	public List<User> searchUsers (String search){
+		String hql = "Select u from User u where u.userName like %:userName% or u.email like %:email%";
+		TypedQuery<User> q = entityManager.createQuery(hql,User.class);
+		q.setParameter("userName",search);
+		q.setParameter("email",search);
+		return q.getResultList();
 	}
 }

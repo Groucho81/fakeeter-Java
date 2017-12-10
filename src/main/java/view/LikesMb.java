@@ -27,10 +27,10 @@ public class LikesMb {
 		}
 	}
 	public void like (Post post) {
-		likeCont.LikeIt(authMb.getUser(), post);
+		likeCont.likeIt(authMb.getUser(), post);
 	}
 	
 	public int likeCount (Post post) {
-		return likeCont.LikeCount(post);
+		return likeCont.likeCount(post);
 	}
 }
