@@ -18,7 +18,8 @@
 			    </h:panelGroup>
 			    <h:panelGroup rendered="#{authMb.isLogged()}">
 				    <ul class="nav navbar-nav navbar-right">
-				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Cambiar Avatar</a></li>
+				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Edita tu perfil</a></li>
+				    	<li class="active"><a href="#" data-toggle="modal" data-target="#searchUserModal">Buscar Usuario</a></li>
 	      				<h:form styleClass="navbar-form navbar-right">
 	                		<h:commandLink action="#{authMb.logout()}" rendered="#{authMb.isLogged()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
 						</h:form>
@@ -82,6 +83,57 @@
 							</div>	
 						</h:form>
       				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+    			</div>
+			</div>
+		</div>
+		<!-- Modal search User -->
+		<div id="searchUserModal" class="modal fade" role="dialog">
+  			<div class="modal-dialog">
+		    <!-- Modal content-->
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+        				<h4 class="modal-title">Busca un usuario</h4>
+      				</div>
+      				<div class="modal-body">
+				        <h:form enctype="multipart/form-data" styleClass="form-inline">
+							<div class="form-group">
+								<label class="glyphSpace">Nombre de Usuario</label>
+								<h:inputText styleClass="form-control glyphSpace" id="nombreUsuario" value="#{search.searchValue}"></h:inputText>
+							</div>
+							<h:commandButton action="#{search.searchUsers()}" value="Buscar" styleClass="btn btn-success">
+									<f:ajax render="@form" execute="@form"></f:ajax>
+					        </h:commandButton>
+							<hr></hr>
+							<h:panelGroup id="searchResult">
+	      						<h:dataTable styleClass="table table-hover" value="#{search.searchResult}" var="u">
+									<h:column>
+										<f:facet name="header">Usuario</f:facet>
+										#{u.userName}
+									</h:column>
+									<h:column>
+										<f:facet name="header">Email</f:facet>
+										#{u.email}
+									</h:column>
+									<h:column>						
+										<h:link styleClass="btn btn-primary" value="Ver sus posteos" outcome="search?faces-redirect=true">
+											<f:param name="uid" value="#{u.id}" />
+										</h:link>
+									</h:column>
+									<h:column>
+										<h:form>
+											<h:commandLink action="#{followerMb.follow(u)}" styleClass="btn btn-primary #{followerMb.canFollow(u)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>
+												Seguir
+											</h:commandLink>
+										</h:form>
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
+						</h:form>
+      				</div>      				
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 					</div>

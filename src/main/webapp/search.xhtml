@@ -9,20 +9,26 @@
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 			    <ul class="nav navbar-nav">
-			      <li class="active"><h:outputLink value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li><h:outputLink rendered="#{authMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
 			      <li><h:outputLink rendered="#{authMb.isLogged()}" value="following.xhtml">Siguiendo</h:outputLink></li>
 			      <li><a href="allPosts.xhtml">Todos los Mensajes</a></li>
 			    </ul>
-			    <h:panelGroup styleClass="navbar-form navbar-left">
+			    <h:panelGroup rendered="#{authMb.isLogged()}" styleClass="navbar-form navbar-left">
 			    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#postModal">Crear Post</button>
 			    </h:panelGroup>
-			    <h:panelGroup>
+			    <h:panelGroup rendered="#{authMb.isLogged()}">
 				    <ul class="nav navbar-nav navbar-right">
 				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Edita tu perfil</a></li>
-				    	<li><a href="#" data-toggle="modal" data-target="#searchUserModal">Buscar Usuario</a></li>
+				    	<li class="active"><a href="#" data-toggle="modal" data-target="#searchUserModal">Buscar Usuario</a></li>
 	      				<h:form styleClass="navbar-form navbar-right">
-	                		<h:commandLink action="#{authMb.logout()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
+	                		<h:commandLink action="#{authMb.logout()}" rendered="#{authMb.isLogged()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
 						</h:form>
+	    			</ul>
+    			</h:panelGroup>
+    			<h:panelGroup rendered="#{!authMb.isLogged()}">
+    				<ul class="nav navbar-nav navbar-right">
+				    	<li><a href="index.xhtml">Logueate</a></li>
+				    	<li><a href="register.xhtml">Registrate</a></li>
 	    			</ul>
     			</h:panelGroup>
 			</div>
@@ -117,9 +123,7 @@
 										#{u.email}
 									</h:column>
 									<h:column>						
-										<h:link styleClass="btn btn-primary" value="Ver sus posteos" outcome="search?faces-redirect=true">
-											<f:param name="uid" value="#{u.id}" />
-										</h:link>
+										<h:outputLink styleClass="btn btn-primary" value="search.xhtml?uid=#{u.id}">Ver sus posteos</h:outputLink>
 									</h:column>
 									<h:column>
 										<h:form>
@@ -145,7 +149,7 @@
 			</div>
 			<div class="col-md-6" >
 				<h:panelGroup id="postList">
-				<ui:repeat var="p" value="#{homeMb.posts}">
+				<ui:repeat var="p" value="#{search.userPosts}" id="post_list" >
 					<div class="media post">
 						<div class="media-left">
 							<h:panelGroup rendered="#{p.user.avatar.path eq null}">
@@ -153,6 +157,14 @@
 							</h:panelGroup>
 							<h:panelGroup rendered="#{p.user.avatar.path ne null}">
 								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:80px"/>
+							</h:panelGroup>
+							<h:panelGroup>
+								<br></br>
+								<h:form>
+									<h:commandLink action="#{followerMb.follow(p.user)}" styleClass="btn btn-primary #{followerMb.canFollow(p.user)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>Seguir
+										<f:ajax render="@form"></f:ajax>
+									</h:commandLink>
+								</h:form>
 							</h:panelGroup>
 						</div>
 						<div class="media-body">
@@ -204,12 +216,14 @@
 										</ui:repeat>
 									</h:panelGroup>
 								</div>
-								<div class="form-group">							
-										<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
-										<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
-											<f:ajax render="comment_list" execute="@form"></f:ajax>
-										</h:commandButton>
-								</div>
+								<h:panelGroup rendered="#{authMb.isLogged()}">
+									<div class="form-group" rendered="#{authMb.isLogged()}">							
+											<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
+											<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
+												<f:ajax render="comment_list" execute="@form"></f:ajax>
+											</h:commandButton>
+									</div>
+								</h:panelGroup>
 							</h:form>
 						</div>
 					</div>
