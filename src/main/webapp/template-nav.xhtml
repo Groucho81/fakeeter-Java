@@ -15,7 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
-<h:body styleClass="background_login">
+<h:body id="body" styleClass="background_login">
 	<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1"> 
@@ -25,6 +25,151 @@
 		<div class="col-md-7"></div>
 		<div class="col-md-2"></div>
 	</div>
+	<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+			    <ul class="nav navbar-nav">
+			      <li class="#{view.viewId eq '/home.xhtml' ? 'active' : ''}"><h:outputLink rendered="#{authMb.isLogged()}" value="home.xhtml">Tus Mensajes</h:outputLink></li>
+			      <li class="#{view.viewId eq '/following.xhtml' ? 'active' : ''}"><h:outputLink rendered="#{authMb.isLogged()}" value="following.xhtml">Siguiendo</h:outputLink></li>
+			      <li class="#{view.viewId eq '/allPosts.xhtml' ? 'active' : ''}"><a href="allPosts.xhtml">Todos los Mensajes</a></li>
+			      <li class="#{view.viewId eq '/search.xhtml' ? 'active' : ''}"><a href="#" data-toggle="modal" data-target="#searchUserModal">Buscar Usuario</a></li>
+			    </ul>
+			    <h:panelGroup rendered="#{authMb.isLogged()}" styleClass="navbar-form navbar-left">
+			    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#postModal">Crear Post</button>
+			    </h:panelGroup>
+			    <h:panelGroup rendered="#{authMb.isLogged()}">
+				    <ul class="nav navbar-nav navbar-right">
+				    	<li><a href="#" data-toggle="modal" data-target="#avatarModal">Edita tu perfil</a></li>
+	      				<h:form styleClass="navbar-form navbar-right">
+	                		<h:commandLink action="#{authMb.logout()}" rendered="#{authMb.isLogged()}" styleClass="btn btn-info"><span class="glyphicon glyphicon-log-out glyphSpace"></span>Deslogueate</h:commandLink>
+						</h:form>
+	    			</ul>
+    			</h:panelGroup>
+    			<h:panelGroup rendered="#{!authMb.isLogged()}">
+    				<ul class="nav navbar-nav navbar-right">
+				    	<li><a href="index.xhtml">Logueate</a></li>
+				    	<li><a href="register.xhtml">Registrate</a></li>
+	    			</ul>
+    			</h:panelGroup>
+			</div>
+	</nav>
+	<!-- Modals -->
+	<!-- Modal to create post -->
+	<div id="postModal" class="modal fade" role="dialog">
+  		<div class="modal-dialog">
+	    <!-- Modal content-->
+	    	<h:panelGroup id="modalPost-content-container">
+    		<div class="modal-content">
+     				<div class="modal-header">
+       				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+       				<h4 class="modal-title">Envia un post con imagen</h4>
+     				</div>
+     				<div class="modal-body">
+			        <h:form enctype="multipart/form-data">
+						<div class="form-group">
+							<label>Mensaje</label>
+							<h:inputText maxlength="140" styleClass="form-control" value="#{homeMb.post}"></h:inputText>
+						</div>
+						<div class="form-group">
+							<label>Imagen</label>
+							<h:inputFile id="filePost" value="#{homeMb.file}"/>
+						</div>
+						<h:commandButton action="#{homeMb.send()}" value="Enviar" styleClass="btn btn-success">
+							<f:ajax render=":modalPost-content-container" execute="@form"></f:ajax>
+				        </h:commandButton>
+					</h:form>
+     				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+				</div>
+    		</div>
+    		</h:panelGroup>
+		</div>
+	</div>
+	<!-- Modal to change avatar -->
+	<h:panelGroup id="modalcontainer">
+		<div id="avatarModal" class="modal fade" role="dialog">
+  			<div class="modal-dialog">
+		    <!-- Modal content-->
+		    	<h:panelGroup id="modalProfile-content-container">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+        				<h4 class="modal-title">Edita tu perfil</h4>
+      				</div>
+      				<div class="modal-body">
+				        <h:form enctype="multipart/form-data">
+				        	<div class="form-group">
+								<label>Password</label>
+								<h:inputSecret id="password_form" styleClass="form-control" value="#{homeMb.password}" label="Password"></h:inputSecret>
+							</div>
+							<div class="form-group">
+								<label>Elegi una imagen de perfil</label>
+								<h:inputFile id="fileAvatar" value="#{homeMb.file}"/>
+							</div>
+							<h:commandButton action="#{homeMb.changeProfile()}" value="Enviar" styleClass="btn btn-success">
+					        </h:commandButton>	
+						</h:form>
+      				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+					</div>
+    			</div>
+    			</h:panelGroup>
+			</div>
+		</div>
+	</h:panelGroup>
+	<!-- Modal search User -->
+	<div id="searchUserModal" class="modal fade" role="dialog">
+  		<div class="modal-dialog">
+	    <!-- Modal content-->
+    		<div class="modal-content">
+     				<div class="modal-header">
+    	   				<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+       					<h4 class="modal-title">Busca un usuario</h4>
+     				</div>
+      				<div class="modal-body">
+				        <h:form enctype="multipart/form-data" styleClass="form-inline">
+							<div class="form-group">
+								<label class="glyphSpace">Nombre de Usuario</label>
+								<h:inputText styleClass="form-control glyphSpace" id="nombreUsuario" value="#{search.searchValue}"></h:inputText>
+							</div>
+							<h:commandButton action="#{search.searchUsers()}" value="Buscar" styleClass="btn btn-success">
+									<f:ajax render="@form" execute="@form"></f:ajax>
+					        </h:commandButton>
+							<hr></hr>
+							<h:panelGroup id="searchResult">
+	      						<h:dataTable styleClass="table table-hover" value="#{search.searchResult}" var="u">
+									<h:column>
+										<f:facet name="header">Usuario</f:facet>
+										#{u.userName}
+									</h:column>
+									<h:column>
+										<f:facet name="header">Email</f:facet>
+										#{u.email}
+									</h:column>
+									<h:column>						
+										<h:link styleClass="btn btn-primary" value="Ver sus posteos" outcome="search?faces-redirect=true">
+											<f:param name="uid" value="#{u.id}" />
+										</h:link>
+									</h:column>
+									<h:column rendered="#{authMb.isLogged()}">
+										<h:form>
+											<h:commandLink action="#{followerMb.follow(u)}" styleClass="btn btn-primary #{followerMb.canFollow(u)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>
+												Seguir
+											</h:commandLink>
+										</h:form>
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
+						</h:form>
+      				</div>      				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+    			</div>
+			</div>
+		</div>
+		<!-- End of Modals -->
 	<div id="layout">		
 		<nav id="header">
 		</nav>

@@ -58,21 +58,24 @@ public class Home{
 	}
 	
 	public void send() {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error interno", null);
 		try{
 			if(this.file != null && this.file.getSize() > 0 && this.file.getContentType().startsWith("image")){
 				this.image = imgCntl.upload(this.file);
 			}
 			if (this.post.length()==0 && this.image==null) {
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Texto e imagen vacios. Nada que publicar", null);
-				FacesContext.getCurrentInstance().addMessage(null, msg);
+				msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Texto e imagen vacios. Nada que publicar", null);
+				throw new Exception("Imagen invalida");
 			}else {
 				Date date=new Date();
 				Post p=new Post(authMb.getUser(),date,post,image);
 				postCont.create(p);
+				this.image = null;
+				this.post = "";
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
 			}
 		} catch (Exception e){
 			e.printStackTrace();
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error interno", null);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}

@@ -33,6 +33,8 @@ public class FollowerMb {
 	}
 	public void follow (User userToFollow) {
 		followerCont.follow(authMb.getUser(), userToFollow);
+		System.out.println("##### FollowerMb->follow->userToFollow:"+userToFollow.getUserName());
+		System.out.println("##### FollowerMb->follow->usuario logueado:"+authMb.getUser().getUserName());
 	}
 	
 	public List<Post> getPosts() {

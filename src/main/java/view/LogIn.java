@@ -51,6 +51,7 @@ public class LogIn implements Serializable{
 	}
 	
 	public String register(){
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Los datos ingresados no son validos",null);
 		try{
 			if (usrCont.isValidUser(user.getUserName(), user.getEmail())) {
 				if(this.file != null && this.file.getSize() > 0 && this.file.getContentType().startsWith("image")){
@@ -59,10 +60,13 @@ public class LogIn implements Serializable{
 				user.setAvatar(image);
 				usrCont.create(this.user);
 				return "index?faces-redirect=true";
+			}else {
+				msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: El usuario o el email ya existe",null);
+				throw new Exception("El usuario o email ya existe");
+				
 			}
-			return "register?faces-redirect=true";	
+				
 		}catch(Exception e){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Los datos ingresados no son validos",null);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "register?";
 		}

@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="col-md-4"></div>		
 			<div class="col-md-4 whiteForm">
-				<h:form enctype="multipart/form-data">
+				<h:form id="registry_form" enctype="multipart/form-data">
 					<h2>Ingresa tus datos</h2>
 					<div class="form-group">
 						<label>Usuario</label>
@@ -26,7 +26,7 @@
 						<h:inputFile id="fileAvatar" value="#{loginMb.file}"/>
 					</div>	
 					<h:commandLink action="#{loginMb.register()}" styleClass="btn btn-success">Registrar
-					<f:ajax render="registry_errors" execute="@form"></f:ajax>
+					<f:ajax render="registry_errors" execute="name_form password_form email_form"></f:ajax>
 					</h:commandLink>
 				</h:form>
 			</div>
