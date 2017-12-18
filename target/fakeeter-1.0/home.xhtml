@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="template-nav.xhtml">
+	<ui:define name="content">
+		<div class="row">
+			<div class="col-md-3">
+				<h:messages id="registry_errors" globalOnly="false" layout="table" errorClass="alert alert-danger" />
+			</div>
+			<div class="col-md-6" >
+				<h:panelGroup id="postList">
+				<ui:repeat var="p" value="#{homeMb.posts}">
+					<div class="media post">
+						<div class="media-left">
+							<h:panelGroup rendered="#{p.user.avatar.path eq null}">
+								<img src="resources/images/img_avatar2.png" class="media-object" style="width:80px"/>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{p.user.avatar.path ne null}">
+								<img src="/img/#{p.user.avatar.path}" class="media-object" style="width:80px"/>
+							</h:panelGroup>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<h:outputText value="#{p.userName} " />
+								<small>Fecha: <h:outputText value="#{p.date}" /></small>
+							</h4>
+							<h:panelGroup rendered="#{p.image ne null}">
+								<div class="thumbnail">
+	        						<img src="/img/#{p.image.path}" class="img-responsive" alt="Imagen del Post"></img>
+								</div>
+								<p>#{p.post}</p>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{p.image eq null}">
+								<p>#{p.post}</p>
+							</h:panelGroup>
+							<h:form>
+								<label>Me Gusta (#{likesMb.likeCount(p)}) : </label>
+								<h:commandLink action="#{likesMb.like(p)}" styleClass="btn btn-primary #{likesMb.isLikable(p)}"><span class="glyphicon glyphicon-thumbs-up"></span>
+									<f:ajax render="@form"></f:ajax>
+								</h:commandLink>
+							</h:form>
+							<span class="label label-default">Comentarios:</span>
+							<h:form id="comment_form">
+								<div class="form-group">
+									<h:panelGroup id="comment_list">
+										<ui:repeat var="comment" value="#{commentMb.listByPost(p)}">
+											<div class="media">
+												<div class="media-body">
+													<h4 class="media-heading">
+														<h:outputText value="#{comment.user.userName}" />
+														<small>Fecha: 
+															<h:outputText value="#{comment.date}" >
+																<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+															</h:outputText>
+														</small>
+													</h4>
+													<h:outputText value="#{comment.content}" />
+												</div>
+												<div class="media-right">
+													<h:panelGroup rendered="#{comment.user.avatar.path ne null}">
+														<img src="/img/#{comment.user.avatar.path}" class="media-object" style="width:60px"/>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{comment.user.avatar.path eq null}">
+														<img src="resources/images/img_avatar2.png" class="media-object" style="width:60px"/>
+													</h:panelGroup>
+												</div>							
+											</div>
+										</ui:repeat>
+									</h:panelGroup>
+								</div>
+								<div class="form-group" rendered="#{authMb.isLogged()}">							
+									<h:inputText id="comment_field" value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
+								</div>
+								<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
+									<f:ajax render="comment_list comment_field" execute="@form"></f:ajax>
+								</h:commandButton>
+							</h:form>
+						</div>
+					</div>
+  				</ui:repeat>
+  				</h:panelGroup>			
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</ui:define>
+</ui:composition>
+</html>
