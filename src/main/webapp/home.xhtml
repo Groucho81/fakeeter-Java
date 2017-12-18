@@ -71,12 +71,12 @@
 										</ui:repeat>
 									</h:panelGroup>
 								</div>
-								<div class="form-group">							
-										<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
-										<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
-											<f:ajax render="comment_list" execute="@form"></f:ajax>
-										</h:commandButton>
+								<div class="form-group" rendered="#{authMb.isLogged()}">							
+									<h:inputText id="comment_field" value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
 								</div>
+								<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
+									<f:ajax render="comment_list comment_field" execute="@form"></f:ajax>
+								</h:commandButton>
 							</h:form>
 						</div>
 					</div>

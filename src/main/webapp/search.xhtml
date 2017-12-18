@@ -24,8 +24,8 @@
 							<h:panelGroup layout="block">
 								<br></br>
 								<h:form rendered="#{authMb.isLogged()}">
-									<h:commandLink action="#{followerMb.follow(p.user)}" styleClass="btn btn-primary #{followerMb.canFollow(p.user)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>Seguir
-										<f:ajax render="@form"></f:ajax>
+									<h:commandLink immediate="true" actionListener="#{followerMb.follow(p.user)}" styleClass="btn btn-primary #{followerMb.canFollow(p.user)}"><span class="glyphicon glyphicon-hand-right glyphSpace"></span>Seguir
+										<f:ajax render="@form" execute="@form"></f:ajax>
 									</h:commandLink>
 								</h:form>
 							</h:panelGroup>
@@ -81,11 +81,11 @@
 								</div>
 								<h:panelGroup rendered="#{authMb.isLogged()}">
 									<div class="form-group" rendered="#{authMb.isLogged()}">							
-											<h:inputText value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
-											<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
-												<f:ajax render="comment_list" execute="@form"></f:ajax>
-											</h:commandButton>
+											<h:inputText id="comment_field" value="#{commentMb.comment}" styleClass="form-control mybuttons commentInput" />
 									</div>
+									<h:commandButton styleClass="btn btn-primary mybuttons" action="#{commentMb.create(p)}" value="Comentar" >
+										<f:ajax render="comment_list comment_field" execute="@form"></f:ajax>
+									</h:commandButton>
 								</h:panelGroup>
 							</h:form>
 						</div>

@@ -48,7 +48,6 @@ public class Search {
 		}else {
 			int uid= Integer.parseInt(id);
 			User user = usrCont.byId(uid);
-			//searchResult=null;
 			id=null;
 			return postCont.getUserPosts(user);
 		}
